@@ -6,8 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import {useHistory, Link} from "react-router-dom";
 
-const AppHeader = () => {
+const AppHeader = ({user}) => {
+    const history = useHistory()
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -28,10 +30,15 @@ const AppHeader = () => {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Pizza<span role="img" aria-label="Pizza slice">🍕</span>
-                    </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Link to="/">
+                        <Typography variant="h6" className={classes.title}>
+                            Pizza<span role="img" aria-label="Pizza slice">🍕</span>
+                        </Typography>
+                    </Link>
+
+                    <Link to="/login">
+                            <Button color="inherit">Login</Button>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </div>
