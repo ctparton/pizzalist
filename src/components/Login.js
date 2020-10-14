@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm } from "react-hook-form";
+import loginRouter from "../services/login";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,13 +33,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Login = () => {
+const Login = ({setUser, notifyUser}) => {
     const classes = useStyles();
+    const history = useHistory()
     const { register, handleSubmit, watch, errors } = useForm();
 
-    const handleLogin = ({username, password}) => {
+    const handleLogin = async ({username, password}) => {
         console.log(`username is ${username}`)
         console.log(`password is ${password}`)
+        try {
+            const response = await loginRouter.login({username, password})
+            notifyUser({text: "Sign in success", status: "success"})
+            setUser(response)
+            history.push("/")
+        } catch (e) {
+            notifyUser({text: e.response.data.error, status: "error"})
+            history.push("/")
+
+        }
     }
 
     return (

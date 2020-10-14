@@ -30,15 +30,17 @@ const AppHeader = ({user}) => {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Link to="/">
+                    {/*<Link to="/">*/}
                         <Typography variant="h6" className={classes.title}>
                             Pizza<span role="img" aria-label="Pizza slice">🍕</span>
                         </Typography>
-                    </Link>
-
-                    <Link to="/login">
+                    {/*</Link>*/}
+                    {user ? null :
+                        <Link to="/login">
                             <Button color="inherit">Login</Button>
-                    </Link>
+                        </Link>
+                    }
+
                 </Toolbar>
             </AppBar>
         </div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import Container from "@material-ui/core/Container";
 import AppHeader from "./components/AppHeader";
@@ -16,10 +16,34 @@ import PizzaTable from "./components/PizzaTable";
 import {Typography} from "@material-ui/core";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import Notification from "./components/Notification"
+import pizzaService from "./services/pizzas";
+import CreatePizzaRating from "./components/CreatePizzaRating";
+import PizzaMap from "./components/PizzaMap";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false)
   const [user, setUser] = useState(null)
+  const [pizza, setPizza] = useState([])
+  const [notification, setNotification] = useState({})
+  // error, warning, info, success
+
+  const notifyUser = (message) => {
+    setNotification(message)
+    setTimeout(() => setNotification(null), 5000)
+  }
+
+  useEffect(() => {
+    pizzaService.getAll().then(result => {
+      setPizza(result)
+      notifyUser({
+        text: "Pizza loaded",
+        "status": "success"
+      })
+    })
+  }, [])
+
+
   const theme = createMuiTheme({
     palette: {
       type: darkMode ? "dark" : "light",
@@ -64,30 +88,27 @@ const App = () => {
           <Paper style={{height: "100vh"}} elevation={0}>
             <div className="App">
               <AppHeader user={user}/>
+
               <Switcher>
                 <Route path="/home">
+                  <Notification {...notification}/>
                   <Tabs value={currentTab} onChange={handleTabChange} aria-label="simple tabs example">
                     <Tab label="Pizzas" />
                     <Tab label="Map"  />
-                    <Tab label="Add to list" disabled={user !== undefined}/>
+                    <Tab label="Add to list" disabled={user === null}/>
                   </Tabs>
 
-                  {currentTab === 0 ? <PizzaTable></PizzaTable> : null}
-                  {/*<TabPanel value={currentTab} index={0}>*/}
-                  {/*  <PizzaTable></PizzaTable>*/}
-                  {/*</TabPanel>*/}
-                  <TabPanel value={currentTab} index={1}>
-                    Item Two
-                  </TabPanel>
-                  <TabPanel value={currentTab} index={2}>
-                    Item Three
-                  </TabPanel>
+                  {currentTab === 0 ? <PizzaTable pizzas={pizza}></PizzaTable> : null}
+                  {currentTab === 1 ? <PizzaMap pizza={pizza}/> : null}
+                  {currentTab === 2 ? <CreatePizzaRating user={user} pizza={pizza} setPizza={setPizza}/> : null}
+
+
                 </Route>
                 <Route exact path="/login">
-                  <Login/>
+                  <Login setUser={setUser} notifyUser={notifyUser} notification={notification}/>
                 </Route>
                 <Route exact path="/sign-up">
-                  <SignUp/>
+                  <SignUp setUser={setUser} notifyUser={notifyUser} notification={notification}/>
                 </Route>
                 <Route path="/">
                   <Redirect to="/home" />

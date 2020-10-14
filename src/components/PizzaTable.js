@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,23 +12,13 @@ import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 20,
+        width: 1,
     },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-const PizzaTable = () => {
+const PizzaTable = ({pizzas}) => {
+    console.log(pizzas)
     const classes = useStyles();
     return (
         <div>
@@ -36,25 +26,25 @@ const PizzaTable = () => {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Pizza</TableCell>
-                            <TableCell align="right">City</TableCell>
-                            <TableCell align="right">Place</TableCell>
-                            <TableCell align="right">Toppings</TableCell>
-                            <TableCell align="right">Rating</TableCell>
+                            <TableCell><strong>Pizza</strong></TableCell>
+                            <TableCell align="right"><strong>City</strong></TableCell>
+                            <TableCell align="right"><strong>Place</strong></TableCell>
+                            <TableCell align="right"><strong>Toppings</strong></TableCell>
+                            <TableCell><strong>Rating</strong></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.name}>
+                        {pizzas.map((p) => (
+                            <TableRow key={p.id}>
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {p.pizza}
                                 </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
+                                <TableCell align="right">{p.city}</TableCell>
+                                <TableCell align="right">{p.place}</TableCell>
+                                <TableCell align="right">{p.toppings}</TableCell>
                                 <TableCell align="right"> <Box component="fieldset" mb={3} borderColor="transparent">
                                     {/* eslint-disable-next-line react/jsx-no-undef */}
-                                    <Rating name="read-only" value={2} readOnly />
+                                    <Rating name="read-only" value={p.rating} readOnly />
                                 </Box></TableCell>
                             </TableRow>
                         ))}
