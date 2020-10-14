@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useForm} from "react-hook-form";
+import userService from '../services/users'
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,13 +36,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SignUp = () => {
+const SignUp = ({setUser, notifyUser}) => {
     const classes = useStyles();
     const {register, handleSubmit}  = useForm()
+    const history = useHistory()
+    const handleUserSignUp = async ({userName, password}) => {
 
-    const handleUserSignUp = ({userName, password}) => {
-        console.log(userName)
-        console.log(password)
+        try {
+            const response = await userService.createNewUser({username: userName, password})
+            setUser(response)
+            notifyUser({text: `${response} created successfully`, status: "success"})
+            history.push('/')
+
+        } catch (e) {
+            notifyUser({text: e.response.data.error, status: "error"})
+            history.push('/')
+        }
+
     }
     return (
         <Container component="main" maxWidth="xs">
