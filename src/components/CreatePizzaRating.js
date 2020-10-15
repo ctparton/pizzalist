@@ -45,7 +45,6 @@ const CreatePizzaRating = ({user, notifyUser, pizza, setPizza}) => {
             coordinates = await opencage.getData({location: `${data.place} ${data.city}`})
         } catch (e) {
             notifyUser({text: e.response.data.error, status: "error"})
-            history.push('/')
         }
 
         const newPizza = {
@@ -54,17 +53,17 @@ const CreatePizzaRating = ({user, notifyUser, pizza, setPizza}) => {
             place: data.place,
             rating: rating,
             coordinates: [coordinates.bounds.northeast.lat, coordinates.bounds.northeast.lng]
-            // TODO: Add user info
+            // TODO: Add user info, handle coordinate error
         }
 
         try {
             const newlyCreatedPizza = await pizzas.create(newPizza)
             setPizza(pizza.concat(newlyCreatedPizza))
-            notifyUser({text: newlyCreatedPizza, status: "info"})
-            history.push('/')
+            notifyUser({text: `Successfully rated new pizza`, status: "info"})
+
         } catch (e) {
-            notifyUser({text: e.response.data.error, status: "error"})
-            history.push('/')
+            // notifyUser({text: e.response.data.error, status: "error"})
+            
         }
     }
 
