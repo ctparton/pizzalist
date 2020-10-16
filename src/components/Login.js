@@ -39,8 +39,6 @@ const Login = ({setUser, notifyUser}) => {
     const { register, handleSubmit, watch, errors } = useForm();
 
     const handleLogin = async ({username, password}) => {
-        console.log(`username is ${username}`)
-        console.log(`password is ${password}`)
         try {
             const response = await loginRouter.login({username, password})
             notifyUser({text: "Sign in success", status: "success"})

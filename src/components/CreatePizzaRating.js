@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useForm} from "react-hook-form";
-import userService from '../services/users'
-import {useHistory} from "react-router-dom";
 import Rating from "@material-ui/lab/Rating";
 import opencage from "../services/opencage";
 import pizzas from "../services/pizzas";
@@ -39,7 +37,6 @@ const CreatePizzaRating = ({user, notifyUser, pizza, setPizza}) => {
     const classes = useStyles();
     const {register, handleSubmit}  = useForm()
     const [rating, setRating] = useState(0)
-    const history = useHistory()
     const handleCreateNewPizza = async (data) => {
         try {
             coordinates = await opencage.getData({location: `${data.place} ${data.city}`})
@@ -52,14 +49,15 @@ const CreatePizzaRating = ({user, notifyUser, pizza, setPizza}) => {
             city: data.city,
             place: data.place,
             rating: rating,
-            coordinates: [coordinates.bounds.northeast.lat, coordinates.bounds.northeast.lng]
+            coordinates: coordinates ? [coordinates.bounds.northeast.lat, coordinates.bounds.northeast.lng] : []
             // TODO: Add user info, handle coordinate error
         }
 
         try {
             const newlyCreatedPizza = await pizzas.create(newPizza)
-            setPizza(pizza.concat(newlyCreatedPizza))
             notifyUser({text: `Successfully rated new pizza`, status: "info"})
+            setPizza(pizza.concat(newlyCreatedPizza))
+
 
         } catch (e) {
             // notifyUser({text: e.response.data.error, status: "error"})

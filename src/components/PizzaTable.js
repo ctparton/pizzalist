@@ -18,8 +18,9 @@ const useStyles = makeStyles({
 
 
 const PizzaTable = ({pizzas}) => {
-    console.log(pizzas)
     const classes = useStyles();
+    // TODO: Add delete to table elements if user created pizza
+    // TODO: Add link to pizza info page, as card widget
     return (
         <div>
             <TableContainer component={Paper}>

@@ -12,11 +12,12 @@ const PizzaMap = ({pizza}) => {
                     url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
                 />
                 {pizza.map(pizza =>
+                    pizza.coordinates[0] && pizza.coordinates[1] ?
                     <Marker position={[pizza.coordinates[0].$numberDecimal, pizza.coordinates[1].$numberDecimal]}>
                         <Popup>
                             {pizza.place}
                         </Popup>
-                    </Marker>
+                    </Marker> : null
                 )}
 
             </LeafletMap>

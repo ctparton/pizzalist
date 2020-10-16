@@ -100,15 +100,15 @@ const App = () => {
 
                   {currentTab === 0 ? <PizzaTable pizzas={pizza}></PizzaTable> : null}
                   {currentTab === 1 ? <PizzaMap pizza={pizza}/> : null}
-                  {currentTab === 2 ? <CreatePizzaRating user={user} pizza={pizza} setPizza={setPizza}/> : null}
+                  {currentTab === 2 ? <CreatePizzaRating user={user} pizza={pizza} setPizza={setPizza} notifyUser={notifyUser}/> : null}
 
 
                 </Route>
                 <Route exact path="/login">
-                  <Login setUser={setUser} notifyUser={notifyUser} notification={notification}/>
+                  <Login setUser={setUser} notifyUser={notifyUser}/>
                 </Route>
                 <Route exact path="/sign-up">
-                  <SignUp setUser={setUser} notifyUser={notifyUser} notification={notification}/>
+                  <SignUp setUser={setUser} notifyUser={notifyUser} />
                 </Route>
                 <Route path="/">
                   <Redirect to="/home" />

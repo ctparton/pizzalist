@@ -27,9 +27,9 @@ const AppHeader = ({user}) => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
+                    {/*<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">*/}
+                    {/*    <MenuIcon />*/}
+                    {/*</IconButton>*/}
                     {/*<Link to="/">*/}
                         <Typography variant="h6" className={classes.title}>
                             Pizza<span role="img" aria-label="Pizza slice">🍕</span>
